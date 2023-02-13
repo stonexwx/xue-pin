@@ -2,7 +2,6 @@ package cn.org.qsmx.util;
 
 import cn.org.qsmx.exceptions.GraceException;
 import cn.org.qsmx.result.ResponseStatusEnum;
-import com.google.gson.Gson;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtParser;
@@ -10,7 +9,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
 import sun.misc.BASE64Encoder;
 
@@ -19,10 +19,14 @@ import java.util.Date;
 
 @Component
 @Slf4j
+@RefreshScope
 public class JWTUtil {
     public static final String at = "@";
     @Autowired
     private JWTProperties jwtProperties;
+
+    @Value("${jwt.key}")
+    public String JWT_KEY;
 
     public String createJWTPrefix(String body,Long expireTime,String prefix){
         if(expireTime == null){
@@ -44,7 +48,7 @@ public class JWTUtil {
         return delJwt(body,expireTime);
     }
     public String delJwt(String body,Long expireTime){
-        String base64 = new BASE64Encoder().encode(jwtProperties.getKey().getBytes());
+        String base64 = new BASE64Encoder().encode(JWT_KEY.getBytes());
 
         SecretKey secretKey = Keys.hmacShaKeyFor(base64.getBytes());
 
@@ -73,7 +77,8 @@ public class JWTUtil {
                 .compact();
     }
     public String checkJWT(String pendingJWT){
-        String userKey = jwtProperties.getKey();
+        String userKey = JWT_KEY;
+
         //1. 对秘钥进行base64位编码
         String base64 = new BASE64Encoder().encode(userKey.getBytes());
 

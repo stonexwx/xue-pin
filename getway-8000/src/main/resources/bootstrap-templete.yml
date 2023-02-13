@@ -1,0 +1,13 @@
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr:
+        username:
+        password:
+        file-extension: yaml
+        # 本配置可以追加多个nacos配置文件，如此可以添加多个dataid进行配置进行共享
+        extension-configs:
+          - data-id:
+            group:
+            refresh: true #动态刷新配置
