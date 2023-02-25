@@ -37,7 +37,7 @@ public class AdminController extends BaseInfoProperties {
     private JWTUtil jwtUtil;
 
     @PostMapping("login")
-    public GraceJSONResult getSMSCode(@Valid @RequestBody AdminBO adminBO){
+    public GraceJSONResult login(@Valid @RequestBody AdminBO adminBO){
         //判断用户是否存在
         boolean isExist = adminService.adminLogin(adminBO);
         if(!isExist){
