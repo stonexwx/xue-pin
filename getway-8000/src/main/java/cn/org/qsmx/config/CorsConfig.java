@@ -1,4 +1,4 @@
-package cn.org.qsmx;
+package cn.org.qsmx.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,7 +7,7 @@ import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
 @Configuration
-public class CorsConfig {
+public class  CorsConfig {
 
     @Bean
     public CorsWebFilter corsWebFilter(){
