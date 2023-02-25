@@ -89,6 +89,7 @@ public enum ResponseStatusEnum {
     SYSTEM_ERROR_GLOBAL(558, false, "全局降级：系统繁忙，请稍后再试！"),
     SYSTEM_ERROR_FEIGN(559, false, "客户端Feign降级：系统繁忙，请稍后再试！"),
     SYSTEM_ERROR_ZUUL(560, false, "请求系统过于繁忙，请稍后再试！"),
+    SYSTEM_ERROR_BLACK_IP(561,false,"请求过于频繁，请稍后重试！"),
     SYSTEM_PARAMS_SETTINGS_ERROR(5611, false, "参数设置不规范！"),
     ZOOKEEPER_BAD_VERSION_ERROR(5612, false, "数据过时，请刷新页面重试！"),
 

@@ -11,3 +11,8 @@ spring:
     active: dev
   banner:
     location: classpath:banner/qsmx.txt
+
+blackIP:
+  continueCounts: ${counts:3} # ip连续请求的次数
+  timeInterval: ${interval:20} # ip判断时间间隔，单位：s
+  limitTimes: ${times:30} # 限制时间，单位：s

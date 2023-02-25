@@ -22,4 +22,17 @@ spring:
         - id: authRouter #每一项路由都有一个唯一的id
           uri: lb://auth-service #lb负载均衡，会动态寻址
           predicates: #匹配断言，符合条件的放行，可以模糊也可以具体匹配
-            - Path=/a/**,/passport/**
+            - Path=/a/**,/passport/**,/saas/**
+  # 跨域配置
+  #      globalcors:
+  #        cors-configurations:
+  #          '[/**]':
+  #            allowed-headers: "*"
+  #            allowed-methods: "*"
+  #            allowed-origin-patterns: "*"
+  #            allowed-origins: true
+  redis:
+    host:
+    port:
+    database: 0
+    password:
