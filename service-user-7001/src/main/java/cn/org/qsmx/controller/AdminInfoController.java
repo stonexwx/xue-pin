@@ -3,8 +3,10 @@ package cn.org.qsmx.controller;
 import cn.org.qsmx.base.BaseInfoProperties;
 import cn.org.qsmx.intercept.JWTCurrentInterceptor;
 import cn.org.qsmx.pojo.Admin;
+import cn.org.qsmx.pojo.ar.AdminAR;
 import cn.org.qsmx.pojo.bo.AdminBO;
 import cn.org.qsmx.pojo.bo.CreateAdminBO;
+import cn.org.qsmx.pojo.bo.ResetPwdBO;
 import cn.org.qsmx.pojo.vo.AdminVO;
 import cn.org.qsmx.result.GraceJSONResult;
 import cn.org.qsmx.result.ResponseStatusEnum;
@@ -28,6 +30,7 @@ public class AdminInfoController extends BaseInfoProperties {
     @Autowired
     private AdminService adminService;
 
+
     @PostMapping("create")
     public GraceJSONResult create(@Valid @RequestBody CreateAdminBO createAdminBO){
         adminService.createAdmin(createAdminBO);
@@ -48,6 +51,13 @@ public class AdminInfoController extends BaseInfoProperties {
 
         adminService.deleteAdmin(username);
 
+        return GraceJSONResult.ok();
+    }
+
+    @PostMapping("resetPwd")
+    public GraceJSONResult resetPwd(@RequestBody ResetPwdBO resetPwdBO){
+
+        resetPwdBO.modifyPassword();
         return GraceJSONResult.ok();
     }
 
