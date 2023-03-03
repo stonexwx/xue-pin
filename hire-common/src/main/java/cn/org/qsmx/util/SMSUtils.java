@@ -1,5 +1,6 @@
 package cn.org.qsmx.util;
 
+import com.google.gson.JsonObject;
 import com.tencentcloudapi.common.Credential;
 import com.tencentcloudapi.common.exception.TencentCloudSDKException;
 import com.tencentcloudapi.common.profile.ClientProfile;
@@ -10,15 +11,19 @@ import com.tencentcloudapi.sms.v20210111.SmsClient;
 
 import com.tencentcloudapi.sms.v20210111.models.SendSmsRequest;
 import com.tencentcloudapi.sms.v20210111.models.SendSmsResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
 @Component
+@Slf4j
 public class SMSUtils {
     @Autowired
     private TencentCloudProperties tencentCloudProperties;
 
-    public void sendSMS(String phone, String code) throws Exception {
+    public boolean sendSMS(String phone, String code) {
         try {
             /* 必要步骤：
              * 实例化一个认证对象，入参需要传入腾讯云账户密钥对secretId，secretKey。
@@ -58,10 +63,14 @@ public class SMSUtils {
 
             // 返回的resp是一个SendSmsResponse的实例，与请求对象对应
             SendSmsResponse resp = client.SendSms(req);
+            JsonObject jsonObject = GsonUtils.string2Object(SendSmsResponse.toJsonString(resp));
+            log.info("短信发送服务返回接口{}",SendSmsResponse.toJsonString(resp));
+            return jsonObject.get("Error") == null;
             // 输出json格式的字符串回包
 //            System.out.println(SendSmsResponse.toJsonString(resp));
         } catch (TencentCloudSDKException e) {
-            System.out.println(e.toString());
+            e.printStackTrace();
+            return false;
         }
     }
 

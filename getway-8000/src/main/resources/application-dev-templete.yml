@@ -23,6 +23,10 @@ spring:
           uri: lb://auth-service #lb负载均衡，会动态寻址
           predicates: #匹配断言，符合条件的放行，可以模糊也可以具体匹配
             - Path=/a/**,/passport/**,/saas/**,/admin/**
+        - id: resourceRouter #每一项路由都有一个唯一的id
+          uri: lb://resource-service #lb负载均衡，会动态寻址
+          predicates: #匹配断言，符合条件的放行，可以模糊也可以具体匹配
+            - Path=/r/**
   # 跨域配置
   #      globalcors:
   #        cors-configurations:

@@ -47,6 +47,8 @@ public enum ResponseStatusEnum {
     SYSTEM_PARSER_ERROR(549, false, "系统错误，解析出错！"),
     SYSTEM_DATE_PARSER_ERROR(550, false, "系统错误，日期解析出错！"),
     SYSTEM_NO_EXPIRE_ERROR(552, false, "系统错误，缺少过期时间！"),
+    SYSTEM_SMS_FALLBACK_ERROR(553, false, "系统错误，短信发送接口繁忙，请稍后再试！"),
+
 
     HTTP_URL_CONNECT_ERROR(551, false, "目标地址无法请求！"),
 
