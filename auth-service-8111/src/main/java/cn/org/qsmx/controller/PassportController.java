@@ -16,6 +16,10 @@ import cn.org.qsmx.util.SMSUtils;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.amqp.AmqpException;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessagePostProcessor;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,12 +56,17 @@ public class PassportController extends BaseInfoProperties {
         redis.setnx60s(MOBILE_SMSCODE+":"+userIP,mobile);
         String code = (int)((Math.random() *9+1)*100000)+"";
 //        smsUtils.sendSMS(mobile,code);
+
         //使用消息队列异步解耦发送短信
         SMSContentQO contentQO = new SMSContentQO();
         contentQO.setMobile(mobile);
         contentQO.setContent(code);
-        rabbitTemplate.convertAndSend(RabbitMQSMSConfig.SMS_EXCHANGE,
-                RabbitMQSMSConfig.ROUTING_KEY_SMS_SEND_LOGIN, GsonUtils.object2String(contentQO));
+
+//        rabbitTemplate.convertAndSend(RabbitMQSMSConfig.SMS_EXCHANGE,
+//                RabbitMQSMSConfig.ROUTING_KEY_SMS_SEND_LOGIN,
+//                GsonUtils.object2String(contentQO));
+
+
         //把验证码存入redis，用于后期注册登录
         redis.set(MOBILE_SMSCODE+":"+mobile,code,30*60);
         log.info("验证码为：{}",code);

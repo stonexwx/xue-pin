@@ -3,6 +3,7 @@ package cn.org.qsmx.service.impl;
 import cn.org.qsmx.enums.Sex;
 import cn.org.qsmx.enums.ShowWhichName;
 import cn.org.qsmx.enums.UserRole;
+import cn.org.qsmx.fegin.ResumeMicroServiceFeign;
 import cn.org.qsmx.mapper.UsersMapper;
 import cn.org.qsmx.pojo.Users;
 import cn.org.qsmx.service.UsersService;
@@ -30,6 +31,9 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
     private final String IMG_URL = "http://img.qsmx.org.cn/i/2022/12/20/63a14a746328a.png";
     @Autowired
     private UsersMapper usersMapper;
+
+    @Autowired
+    private ResumeMicroServiceFeign resumeMicroServiceFeign;
     /**
      * 判断用户是否存在，如果存在则返回用户信息，否则null
      *
@@ -79,6 +83,9 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         users.setUpdatedTime(LocalDateTime.now());
 
         usersMapper.insert(users);
+        //发起远程调用，初始化用户简历
+        resumeMicroServiceFeign.init(users.getId());
+
         return users;
     }
 }

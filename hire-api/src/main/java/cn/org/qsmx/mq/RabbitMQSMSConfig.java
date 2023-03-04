@@ -31,7 +31,13 @@ public class RabbitMQSMSConfig {
     //创建队列
     @Bean(SMS_QUEUE)
     public Queue queue(){
-        return QueueBuilder.durable(SMS_QUEUE).build();
+        return QueueBuilder
+                .durable(SMS_QUEUE)
+                .withArgument("x-message-ttl", 30 * 1000)
+                .withArgument("x-dead-letter-exchange", RabbitMQSMSConfig_Dead.SMS_EXCHANGE_DEAD)
+                .withArgument("x-dead-letter-routing-key", RabbitMQSMSConfig_Dead.ROUTING_KEY_SMS_DEAD)
+                .withArgument("x-max-length",6)
+                .build();
     }
 
     //创建绑定关系

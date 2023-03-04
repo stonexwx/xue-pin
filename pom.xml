@@ -30,6 +30,7 @@
         <module>getway-8000</module>
         <module>auth-service-8111</module>
         <module>server-resource-4001</module>
+        <module>service-resume-3001</module>
     </modules>
 
     <properties>
