@@ -21,7 +21,9 @@ spring:
         username:
         password:
         namespace:
-
+    loadbalancer:
+      nacos:
+        enabled: true # 开启基于nacos规则的负载均衡
   redis:
     host:
     port:

@@ -20,6 +20,7 @@ public enum ResponseStatusEnum {
     USER_UPDATE_ERROR(508,false,"用户信息更新失败，请联系管理员！"),
     USER_INACTIVE_ERROR(509,false,"请前往[账号设置]修改信息激活后再进行后续操作！"),
     USER_INFO_UPDATED_ERROR(5091,false,"用户信息修改失败！"),
+    USER_REGISTERED_ERROR(5093,false,"用户注册失败！"),
     USER_INFO_UPDATED_NICKNAME_EXIST_ERROR(5092,false,"昵称已经存在！"),
     USER_INFO_UPDATED_IMOOCNUM_EXIST_ERROR(5092,false,"慕课号已经存在！"),
     USER_INFO_CANT_UPDATED_IMOOCNUM_ERROR(5092,false,"慕课号无法修改！"),

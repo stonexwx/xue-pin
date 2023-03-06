@@ -21,16 +21,37 @@ spring:
         username:
         password:
         namespace:
-
+    loadbalancer:
+      nacos:
+        enabled: true # 开启基于nacos规则的负载均衡
   redis:
     host:
     port:
     database: 0
     password:
-
   rabbitmq:
     host:
     port: 5672
     virtual-host: /
     username:
     password:
+seata:
+  enabled: true
+  tx-service-group: xuepin_tx_group
+  service:
+    vgroup-mapping:
+      xuepin_tx_group: SEATA_GROUP
+    grouplist:
+      SEATA_GROUP:
+  config:
+    nacos:
+      server-addr:
+      username:
+      password:
+      namespace:
+  registry:
+    nacos:
+      server-addr:
+      username:
+      password:
+      namespace:
