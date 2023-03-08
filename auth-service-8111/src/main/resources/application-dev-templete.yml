@@ -35,23 +35,3 @@ spring:
     virtual-host: /
     username:
     password:
-seata:
-  enabled: true
-  tx-service-group: xuepin_tx_group
-  service:
-    vgroup-mapping:
-      xuepin_tx_group: SEATA_GROUP
-    grouplist:
-      SEATA_GROUP:
-  config:
-    nacos:
-      server-addr:
-      username:
-      password:
-      namespace:
-  registry:
-    nacos:
-      server-addr:
-      username:
-      password:
-      namespace:
