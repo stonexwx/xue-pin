@@ -14,13 +14,9 @@ import cn.org.qsmx.util.DesensitizationUtil;
 import cn.org.qsmx.util.LocalDateUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import io.seata.core.context.RootContext;
-import io.seata.core.exception.TransactionException;
-import io.seata.spring.annotation.GlobalTransactional;
-import io.seata.tm.api.GlobalTransactionContext;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -60,8 +56,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
      * @param mobile
      * @return
      */
-//    @Transactional
-    @GlobalTransactional
+    @Transactional
     @Override
     public Users createUsers(String mobile) {
 
