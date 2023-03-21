@@ -30,3 +30,13 @@ spring:
     database: 0
     password:
 
+  rabbitmq:
+    host:
+    port:
+    virtual-host: /
+    username:
+    password:
+    listener:
+      simple:
+        acknowledge-mode: manual
+        prefetch: 2 #每次每个消费者从mq中拉去的消息数量，直到手动ack确认之后，才会拉取下一个

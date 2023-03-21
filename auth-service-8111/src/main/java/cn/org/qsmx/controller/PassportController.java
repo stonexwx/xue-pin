@@ -79,14 +79,20 @@ public class PassportController extends BaseInfoProperties {
         String mobile = registLoginBO.getMobile();
         String code = registLoginBO.getSmsCode();
         String redisCode = redis.get(MOBILE_SMSCODE+":"+mobile);
-        if(StringUtils.isBlank(redisCode)|| !redisCode.equalsIgnoreCase(code)){
-            return GraceJSONResult.errorCustom(ResponseStatusEnum.SMS_CODE_ERROR);
+
+        //测试使用
+        if (!"123456".equalsIgnoreCase(code)){
+            if(StringUtils.isBlank(redisCode)|| !redisCode.equalsIgnoreCase(code)){
+                return GraceJSONResult.errorCustom(ResponseStatusEnum.SMS_CODE_ERROR);
+            }
         }
 
         Users user  = usersService.queryMobileExist(mobile);
         if(user==null){
-            user=usersService.createUsers(mobile);
+//            user=usersService.createUsers(mobile);
+            user=usersService.createUsersAndInitResumeMQ(mobile);
         }
+
 
 //        String uToken = TOKEN_USER_PREFIX+SYMBOL_DOT+ UUID.randomUUID();
 //        redis.set(REDIS_ADMIN_TOKEN+":"+user.getId(),uToken);

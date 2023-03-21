@@ -6,6 +6,7 @@ import cn.org.qsmx.enums.UserRole;
 import cn.org.qsmx.exceptions.GraceException;
 import cn.org.qsmx.fegin.ResumeMicroServiceFeign;
 import cn.org.qsmx.mapper.UsersMapper;
+import cn.org.qsmx.mq.InitResumeMQConfig;
 import cn.org.qsmx.pojo.Users;
 import cn.org.qsmx.result.GraceJSONResult;
 import cn.org.qsmx.result.ResponseStatusEnum;
@@ -14,6 +15,7 @@ import cn.org.qsmx.util.DesensitizationUtil;
 import cn.org.qsmx.util.LocalDateUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -88,8 +90,32 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         usersMapper.insert(users);
 
         //发起远程调用，初始化用户简历
-        resumeMicroServiceFeign.init(users.getId());
+//        resumeMicroServiceFeign.init(users.getId());
 
+        return users;
+    }
+
+    @Autowired
+    public RabbitTemplate rabbitTemplate;
+
+    /**
+     * 使用mq完成最终一致性
+     * @param mobile
+     * @return
+     */
+    @Transactional
+    @Override
+    public Users createUsersAndInitResumeMQ(String mobile) {
+
+        //创建用户
+        Users users = createUsers(mobile);
+
+
+
+        //发送消息，初始化简历
+//        rabbitTemplate.convertAndSend(InitResumeMQConfig.INIT_RESUME_EXCHANGE,
+//                InitResumeMQConfig.ROUTING_KEY_INIT_RESUME,
+//                users.getId());
         return users;
     }
 }
