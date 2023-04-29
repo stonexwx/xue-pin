@@ -19,7 +19,7 @@
         auth-service-8111: 认证服务
         service-resource-4001: 资源服务，一些公用内容资源提供给其他服务使用的，
                                比如数据字典，tree树形结构等
-        service-work-3001: 工作微服务（含简历/职位）
+        service-resume-3001: 简历微服务简历
     -->
     <modules>
         <module>hire-common</module>

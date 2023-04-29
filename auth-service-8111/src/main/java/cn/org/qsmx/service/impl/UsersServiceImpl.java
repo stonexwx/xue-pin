@@ -3,13 +3,11 @@ package cn.org.qsmx.service.impl;
 import cn.org.qsmx.enums.Sex;
 import cn.org.qsmx.enums.ShowWhichName;
 import cn.org.qsmx.enums.UserRole;
-import cn.org.qsmx.exceptions.GraceException;
 import cn.org.qsmx.fegin.ResumeMicroServiceFeign;
 import cn.org.qsmx.mapper.UsersMapper;
 import cn.org.qsmx.mq.InitResumeMQConfig;
+import cn.org.qsmx.mq.InitResumeMQProducerHandler;
 import cn.org.qsmx.pojo.Users;
-import cn.org.qsmx.result.GraceJSONResult;
-import cn.org.qsmx.result.ResponseStatusEnum;
 import cn.org.qsmx.service.UsersService;
 import cn.org.qsmx.util.DesensitizationUtil;
 import cn.org.qsmx.util.LocalDateUtils;
@@ -39,6 +37,9 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
 
     @Autowired
     private ResumeMicroServiceFeign resumeMicroServiceFeign;
+
+    @Autowired
+    private InitResumeMQProducerHandler producerHandler;
     /**
      * 判断用户是否存在，如果存在则返回用户信息，否则null
      *
@@ -110,12 +111,15 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         //创建用户
         Users users = createUsers(mobile);
 
+        //通过消息助手类进行本地消息存储
+        producerHandler.saveLocalMsg(
+                InitResumeMQConfig.INIT_RESUME_EXCHANGE,
+                InitResumeMQConfig.ROUTING_KEY_INIT_RESUME,
+                users.getId());
 
 
         //发送消息，初始化简历
-//        rabbitTemplate.convertAndSend(InitResumeMQConfig.INIT_RESUME_EXCHANGE,
-//                InitResumeMQConfig.ROUTING_KEY_INIT_RESUME,
-//                users.getId());
+
         return users;
     }
 }

@@ -11,4 +11,9 @@ public interface ResumeService{
      * @param userId
      */
     void initResume(String userId);
+    /**
+     * 用户注册的时候初始化简历
+     * @param userId
+     */
+    void initResume(String userId,String msgId);
 }
