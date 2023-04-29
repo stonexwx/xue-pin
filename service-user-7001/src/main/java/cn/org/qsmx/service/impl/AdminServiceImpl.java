@@ -5,12 +5,12 @@ import cn.org.qsmx.exceptions.GraceException;
 import cn.org.qsmx.mapper.AdminMapper;
 import cn.org.qsmx.pojo.Admin;
 import cn.org.qsmx.pojo.bo.CreateAdminBO;
+import cn.org.qsmx.pojo.bo.UpdateAdminBO;
 import cn.org.qsmx.result.ResponseStatusEnum;
 import cn.org.qsmx.service.AdminService;
 import cn.org.qsmx.util.MD5Utils;
 import cn.org.qsmx.util.PagedGridResult;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,15 +39,15 @@ public class AdminServiceImpl extends BaseInfoProperties implements AdminService
     public void createAdmin(CreateAdminBO createAdminBO) {
         //admin账号判断是否存在，如果存在，不予创建
         Admin admin = getSelfAdmin(createAdminBO.getUsername());
-        if(admin!=null){
+        if (admin != null) {
             GraceException.display(ResponseStatusEnum.ADMIN_USERNAME_EXIST_ERROR);
         }
 
         Admin newadmin = new Admin();
-        BeanUtils.copyProperties(createAdminBO,newadmin);
+        BeanUtils.copyProperties(createAdminBO, newadmin);
 
-        String slat = (int)((Math.random()*9+1)*10000)+"";
-        String pwd = MD5Utils.encrypt(createAdminBO.getPassword(),slat);
+        String slat = (int) ((Math.random() * 9 + 1) * 10000) + "";
+        String pwd = MD5Utils.encrypt(createAdminBO.getPassword(), slat);
         newadmin.setPassword(pwd);
         newadmin.setSlat(slat);
 
@@ -60,21 +60,21 @@ public class AdminServiceImpl extends BaseInfoProperties implements AdminService
     @Override
     public PagedGridResult getAdminList(String accountName, Integer page, Integer limit) {
 
-        PageHelper.startPage(page,limit);
+        PageHelper.startPage(page, limit);
 
         List<Admin> adminList = adminMapper.selectList(
                 new QueryWrapper<Admin>()
-                        .like("username",accountName)
+                        .like("username", accountName)
         );
 
-        return setterPagedGrid(adminList,page) ;
+        return setterPagedGrid(adminList, page);
     }
 
     @Override
     public void deleteAdmin(String userName) {
         int res = adminMapper.delete(new QueryWrapper<Admin>()
-                .eq("username",userName)
-                .ne("username","admin")
+                .eq("username", userName)
+                .ne("username", "admin")
         );
         if (res == 0) GraceException.display(ResponseStatusEnum.DATA_DICT_DELETE_ERROR);
     }
@@ -84,10 +84,20 @@ public class AdminServiceImpl extends BaseInfoProperties implements AdminService
         return adminMapper.selectById(adminID);
     }
 
-    private Admin getSelfAdmin(String username){
+    @Transactional
+    @Override
+    public void updateAdmin(UpdateAdminBO adminBO) {
+        Admin admin = new Admin();
+        BeanUtils.copyProperties(adminBO, admin);
+        admin.setUpdatedTime(LocalDateTime.now());
+        System.out.println(admin);
+        adminMapper.updateById(admin);
+    }
+
+    private Admin getSelfAdmin(String username) {
         return adminMapper.selectOne(
                 new QueryWrapper<Admin>()
-                        .eq("username",username)
+                        .eq("username", username)
         );
     }
 }

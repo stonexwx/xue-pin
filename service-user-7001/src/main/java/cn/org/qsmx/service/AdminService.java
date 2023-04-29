@@ -2,6 +2,7 @@ package cn.org.qsmx.service;
 
 import cn.org.qsmx.pojo.Admin;
 import cn.org.qsmx.pojo.bo.CreateAdminBO;
+import cn.org.qsmx.pojo.bo.UpdateAdminBO;
 import cn.org.qsmx.util.PagedGridResult;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -43,4 +44,10 @@ public interface AdminService  {
      * @return
      */
     Admin getById(String adminID);
+
+    /**
+     * 更新admin
+     * @param adminBo
+     */
+    void updateAdmin(UpdateAdminBO adminBo);
 }
