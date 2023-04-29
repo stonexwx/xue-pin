@@ -11,3 +11,15 @@ spring:
     active: dev
   banner:
     location: classpath:banner/qsmx.txt
+
+logging:
+  level:
+    root: info
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*.xml
+  global-config:
+    db-config:
+      id-type: assign_id
+      update-strategy: not_empty
+    banner: false
