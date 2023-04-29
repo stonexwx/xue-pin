@@ -1,0 +1,18 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr:
+        username:
+        password:
+        namespace:
+    loadbalancer:
+      nacos:
+        enabled: true # 开启基于nacos规则的负载均衡
+#MinIO
+minio:
+  endpoint: http:// #minio服务所在地址，例如：http://
+  fileHost: http:// #文件访问地址，例如：http://
+  bucketName:  #存储桶名称
+  accessKey:  #访问账号
+  secretKey:  #访问秘钥

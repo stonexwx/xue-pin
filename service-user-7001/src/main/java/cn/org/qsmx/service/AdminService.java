@@ -37,4 +37,10 @@ public interface AdminService  {
      */
     void deleteAdmin(String userName);
 
+    /**
+     * 根据id查询admin
+     * @param adminID
+     * @return
+     */
+    Admin getById(String adminID);
 }

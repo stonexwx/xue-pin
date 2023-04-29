@@ -79,6 +79,11 @@ public class AdminServiceImpl extends BaseInfoProperties implements AdminService
         if (res == 0) GraceException.display(ResponseStatusEnum.DATA_DICT_DELETE_ERROR);
     }
 
+    @Override
+    public Admin getById(String adminID) {
+        return adminMapper.selectById(adminID);
+    }
+
     private Admin getSelfAdmin(String username){
         return adminMapper.selectOne(
                 new QueryWrapper<Admin>()

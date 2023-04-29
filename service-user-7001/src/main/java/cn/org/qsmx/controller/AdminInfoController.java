@@ -7,6 +7,7 @@ import cn.org.qsmx.pojo.ar.AdminAR;
 import cn.org.qsmx.pojo.bo.AdminBO;
 import cn.org.qsmx.pojo.bo.CreateAdminBO;
 import cn.org.qsmx.pojo.bo.ResetPwdBO;
+import cn.org.qsmx.pojo.vo.AdminInfoVO;
 import cn.org.qsmx.pojo.vo.AdminVO;
 import cn.org.qsmx.result.GraceJSONResult;
 import cn.org.qsmx.result.ResponseStatusEnum;
@@ -61,5 +62,13 @@ public class AdminInfoController extends BaseInfoProperties {
         return GraceJSONResult.ok();
     }
 
+    @PostMapping("myInfo")
+    public GraceJSONResult myInfo(){
 
+        Admin admin = JWTCurrentInterceptor.currentAdmin.get();
+        Admin adminInfo = adminService.getById(admin.getId());
+        AdminInfoVO adminInfoVO  = new AdminInfoVO();
+        BeanUtils.copyProperties(adminInfo,adminInfoVO);
+        return GraceJSONResult.ok(adminInfoVO);
+    }
 }
