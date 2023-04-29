@@ -14,7 +14,7 @@ spring:
         - id: userRouter #每一项路由都有一个唯一的id
           uri: lb://user-service #lb负载均衡，会动态寻址
           predicates: #匹配断言，符合条件的放行，可以模糊也可以具体匹配
-            - Path=/u/**
+            - Path=/u/**,/admininfo/**,/userinfo/**
         - id: companyRouter #每一项路由都有一个唯一的id
           uri: lb://company-service #lb负载均衡，会动态寻址
           predicates: #匹配断言，符合条件的放行，可以模糊也可以具体匹配
@@ -27,6 +27,14 @@ spring:
           uri: lb://resource-service #lb负载均衡，会动态寻址
           predicates: #匹配断言，符合条件的放行，可以模糊也可以具体匹配
             - Path=/r/**
+        - id: resumeRouter #每一项路由都有一个唯一的id
+          uri: lb://resume-service #lb负载均衡，会动态寻址
+          predicates: #匹配断言，符合条件的放行，可以模糊也可以具体匹配
+            - Path=/w/**,/resume/**
+        - id: fileRouter #每一项路由都有一个唯一的id
+          uri: lb://file-service #lb负载均衡，会动态寻址
+          predicates: #匹配断言，符合条件的放行，可以模糊也可以具体匹配
+            - Path=/f/**,/file/**
   # 跨域配置
   #      globalcors:
   #        cors-configurations:
